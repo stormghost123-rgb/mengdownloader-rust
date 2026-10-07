@@ -1,8 +1,8 @@
 # 萌下载
 
-原生桌面下载器，用来替换 `N:\deep` 里的 Electron 窗口。界面用 Rust、egui 和 [fastframe](https://github.com/crmne/fastframe)（与 [Spotifast](https://github.com/crmne/spotifast) 同一套，没有浏览器内核）。
+原生桌面下载器，用来替换Electron 窗口。界面用 Rust、egui 和 [fastframe](https://github.com/crmne/fastframe)（与 [Spotifast](https://github.com/crmne/spotifast) 同一套，没有浏览器内核）。
 
-下载和直播仍调用本机的 yt-dlp、ffmpeg。程序会按这个顺序找它们：设置里的路径、环境变量、`I:\mengdownloader\tools`、`N:\deep\tools`、系统 PATH。大体积工具不复制进这个目录。
+下载和直播仍调用本机的 yt-dlp、ffmpeg。程序会按这个顺序找它们：设置里的路径、环境变量、系统 PATH。大体积工具不复制进这个目录。
 
 ## 启动
 
@@ -16,8 +16,6 @@ target\debug\mengdownloader.exe --check
 ```
 
 `--check` 只打印工具路径，不开窗口。
-
-数据在 `I:\mengdownloader\data\meng.sqlite`，下载文件在 `downloads`，日志在 `logs`。这是新库，不会读写 deep 的 `vdm.sqlite`。
 
 ## 手机和扩展
 
