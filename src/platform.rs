@@ -154,6 +154,15 @@ fn digits_after(text: &str, marker: &str) -> String {
 pub fn extract_douyin_ids(input: &str) -> DouyinIds {
     let mut out = DouyinIds::default();
     assign_id(&mut out, &digits_after(input, "live.douyin.com/"));
+    // The website share page is www.douyin.com/root/live/{web_rid}, not live.douyin.com.
+    if out.web_rid.is_empty() && out.room_id.is_empty() {
+        for marker in ["douyin.com/root/live/", "douyin.com/follow/live/", "douyin.com/live/"] {
+            assign_id(&mut out, &digits_after(input, marker));
+            if !out.web_rid.is_empty() || !out.room_id.is_empty() {
+                break;
+            }
+        }
+    }
     let reflow = digits_after(input, "reflow/");
     if is_internal_room_id(&reflow) {
         out.room_id = reflow;
@@ -270,6 +279,14 @@ mod tests {
     }
 
     #[test]
+    fn douyin_website_live_path_is_a_web_rid() {
+        let url = "https://www.douyin.com/root/live/392955140700?anchor_id=82036446462&r_id=f_392955140700";
+        let ids = extract_douyin_ids(url);
+        assert_eq!(ids.web_rid, "392955140700");
+        assert!(ids.room_id.is_empty());
+        assert_eq!(normalize_live_url(url), "https://live.douyin.com/392955140700");
+    }
+
     fn a_plain_room_number_becomes_a_douyin_live_url() {
         assert_eq!(normalize_live_url("456321954819"), "https://live.douyin.com/456321954819");
         assert!(looks_like_live("https://live.douyin.com/456321954819"));

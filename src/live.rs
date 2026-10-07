@@ -212,7 +212,11 @@ fn resolve_douyin(url: &str, quality: &str) -> Result<ResolvedStream, String> {
         }
     }
     if info.error.is_empty() {
-        info.error = "没有拿到抖音直播流。直播间可能未开播。".into();
+        info.error = if ids.web_rid.is_empty() && ids.room_id.is_empty() {
+            "没有从这段文字里识别出抖音直播间。请粘贴直播间链接或房间号。".into()
+        } else {
+            "没有拿到抖音直播流。直播间可能未开播。".into()
+        };
     }
     Ok(info)
 }
