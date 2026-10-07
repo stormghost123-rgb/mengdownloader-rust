@@ -1,0 +1,7 @@
+/target
+/data
+/downloads
+/logs
+*.sqlite
+*.sqlite-wal
+*.sqlite-shm

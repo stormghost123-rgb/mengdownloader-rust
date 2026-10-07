@@ -1,0 +1,35 @@
+[package]
+name = "mengdownloader"
+version = "0.1.0"
+edition = "2024"
+rust-version = "1.98"
+description = "Native video download manager. Rust and egui, the same desktop stack as Spotifast."
+license = "MIT"
+publish = false
+
+[dependencies]
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+log = "0.4"
+# Same desktop stack as Spotifast: egui + eframe glow, no browser engine.
+eframe = { version = "=0.36.2", default-features = false, features = ["glow", "default_fonts", "persistence"] }
+egui = "=0.36.2"
+fastframe-shell = { git = "https://github.com/crmne/fastframe", tag = "v0.4.1" }
+fastframe-fonts = { git = "https://github.com/crmne/fastframe", tag = "v0.4.1" }
+fastframe-log = { git = "https://github.com/crmne/fastframe", tag = "v0.4.1" }
+fastframe-tray = { git = "https://github.com/crmne/fastframe", tag = "v0.4.1" }
+rusqlite = { version = "0.32", features = ["bundled"] }
+reqwest = { version = "0.12", default-features = false, features = ["rustls-tls-native-roots", "blocking", "gzip", "brotli", "deflate"] }
+rfd = "0.15"
+arboard = "3"
+open = "5"
+url = "2"
+regex = "1"
+chrono = "0.4"
+
+[target.'cfg(windows)'.dependencies]
+windows-sys = { version = "0.60", features = ["Win32_Foundation", "Win32_System_Console", "Win32_System_Registry"] }
+
+# Keep dependency code optimized so the window stays responsive in debug builds.
+[profile.dev.package."*"]
+opt-level = 2
